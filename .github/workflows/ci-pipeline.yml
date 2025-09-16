@@ -37,4 +37,3 @@ jobs:
         # The key name here MUST match what's in application.properties
         jwt.secret: ${{ secrets.JWT_SECRET }}
       run: mvn -B package --file backend/pom.xml
-      run: mvn -B package --file backend/pom.xml
