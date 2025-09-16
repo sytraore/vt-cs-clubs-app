@@ -32,4 +32,9 @@ jobs:
     # The 'package' command automatically compiles the code and runs all tests.
     # If any test fails, the entire pipeline will fail.
     - name: Build and Test with Maven
+    # This makes the GitHub Secret available as an environment variable
+      env:
+        # The key name here MUST match what's in application.properties
+        jwt.secret: ${{ secrets.JWT_SECRET }}
+      run: mvn -B package --file backend/pom.xml
       run: mvn -B package --file backend/pom.xml
