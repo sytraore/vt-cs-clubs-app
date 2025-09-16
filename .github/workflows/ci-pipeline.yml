@@ -1,0 +1,35 @@
+# Name of your workflow
+name: Java CI Build and Test
+
+# This workflow runs on any push to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # This job is named "build-and-test"
+  build-and-test:
+    # It runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code from your repository
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: Set up the correct version of Java (JDK 17)
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # Step 3: Build the project and run tests with Maven
+    # This command tells Maven to build the project located in the 'backend' folder.
+    # The 'package' command automatically compiles the code and runs all tests.
+    # If any test fails, the entire pipeline will fail.
+    - name: Build and Test with Maven
+      run: mvn -B package --file backend/pom.xml
