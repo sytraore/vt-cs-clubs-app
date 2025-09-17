@@ -17,4 +17,10 @@ public class HealthCheckController {
         Map<String, String> response = Map.of("status", "UP");
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/demo")
+    public ResponseEntity<Map<String, String>> demo() {
+        Map<String, String> response = Map.of("message", "Hello from a protected endpoint!");
+        return ResponseEntity.ok(response);
+    }
 }

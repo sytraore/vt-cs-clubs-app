@@ -8,6 +8,5 @@ import java.util.Optional;
 @Repository
 public interface AdminUserRepository extends JpaRepository<AdminUser, Long> {
     // This method will find a user by their username.
-    // Spring Data JPA automatically implements this based on the method name.
     Optional<AdminUser> findByUsername(String username);
 }

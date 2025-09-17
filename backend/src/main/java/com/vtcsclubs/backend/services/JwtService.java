@@ -16,8 +16,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    // The secret key used to sign the JWT. This should be a long, random string.
-    // We will set this in our application.properties.example file for security.
+    // The secret key used to sign the JWT
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
