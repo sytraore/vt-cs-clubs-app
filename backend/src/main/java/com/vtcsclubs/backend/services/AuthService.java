@@ -28,7 +28,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
         // Create a new user and save it to the database
         AdminUser adminUser = new AdminUser();
-        adminUser.setUsername(request.username());
+        adminUser.setUserEmail(request.email());
         // Hash the password before saving
         adminUser.setPassword(passwordEncoder.encode(request.password()));
         adminUserRepository.save(adminUser);
@@ -42,12 +42,12 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest request) {
         // Find the user in the database
-        AdminUser adminUser = adminUserRepository.findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+        AdminUser adminUser = adminUserRepository.findByEmail(request.email())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
         // Check if the provided password matches the stored hashed password
         if (!passwordEncoder.matches(request.password(), adminUser.getPassword())) {
-            throw new IllegalArgumentException("Invalid username or password");
+            throw new IllegalArgumentException("Invalid email or password");
         }
 
         // Generate a JWT for the user

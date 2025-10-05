@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface AdminUserRepository extends JpaRepository<AdminUser, Long> {
-    // This method will find a user by their username.
-    Optional<AdminUser> findByUsername(String username);
+    // This method will find a user by their email.
+    Optional<AdminUser> findByEmail(String email);
 }

@@ -21,9 +21,9 @@ public class JwtService {
     private String SECRET_KEY;
 
     /**
-     * Extracts the username from the JWT token.
+     * Extracts the email from the JWT token.
      */
-    public String extractUsername(String token) {
+    public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -44,7 +44,7 @@ public class JwtService {
 
     /**
      * Generates a JWT for a user with extra claims.
-     * The "subject" of the token will be the user's username.
+     * The "subject" of the token will be the user's email.
      */
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
@@ -61,8 +61,8 @@ public class JwtService {
      * Validates if a token is correct and belongs to the right user.
      */
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String userEmail = extractUserEmail(token);
+        return (userEmail.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     /**

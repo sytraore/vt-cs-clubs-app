@@ -1,10 +1,5 @@
 package com.vtcsclubs.backend.models;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,25 +7,37 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Table(name = "admin_users")
+@Table(name = "club_admins")
 public class AdminUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long adminId;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
+    // Many admins can belong to 1 club
+    // foreign key column is named club_id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
+
     public AdminUser() {
     }
 
-    public AdminUser(String username, String password) {
-        this.username = username;
+    public AdminUser(String email, String password) {
+        this.email = email;
         this.password = password;
+    }
+
+    public AdminUser(String email, String password, Club club) {
+        this.email = email;
+        this.password = password;
+        this.club = club;
     }
 
     @Override
@@ -44,9 +51,18 @@ public class AdminUser implements UserDetails {
         return this.password;
     }
 
+    // it gets user email instead. The name getUsername is to conform with Spring Security's UserDetails interface method name
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
     }
 
     // For this project, we can assume accounts are always valid.
@@ -71,19 +87,20 @@ public class AdminUser implements UserDetails {
     }
 
     // --- Getters and Setters ---
-    public Long getId() {
-        return id;
+    public Long getAminId() {
+        return adminId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAdminId(Long id) {
+        this.adminId = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserEmail(String newEmail) {
+        this.email = newEmail;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

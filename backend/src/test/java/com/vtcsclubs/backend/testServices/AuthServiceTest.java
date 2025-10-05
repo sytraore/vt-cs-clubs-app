@@ -1,6 +1,7 @@
 package com.vtcsclubs.backend.testServices;
 import com.vtcsclubs.backend.dto.RegisterRequest;
 import com.vtcsclubs.backend.models.AdminUser;
+import com.vtcsclubs.backend.models.Club;
 import com.vtcsclubs.backend.repositories.AdminUserRepository;
 import com.vtcsclubs.backend.services.AuthService;
 import com.vtcsclubs.backend.services.JwtService;
@@ -34,10 +35,12 @@ public class AuthServiceTest {
 
     private RegisterRequest registerRequest;
     private AdminUser savedUser;
+    //private Club mockClub;
 
     @BeforeEach
     void setUp() {
         // Set up common test data before each test
+        //mockClub = new Club("BITS", "Develop projects", "abc@vt.edu");
         registerRequest = new RegisterRequest("testuser", "password123");
         savedUser = new AdminUser("testuser", "hashedPassword");
     }

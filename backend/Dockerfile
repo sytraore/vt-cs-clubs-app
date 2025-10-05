@@ -4,7 +4,7 @@ FROM maven:3.9.6-eclipse-temurin-17 AS builder
 # Set the working directory inside the container
 WORKDIR /build
 
-# Copy the Maven project file first. This is a Docker optimization.
+# Copy Maven project file
 # If pom.xml doesn't change, Docker can reuse the cached dependency layer.
 COPY pom.xml .
 
@@ -26,11 +26,11 @@ FROM eclipse-temurin:17-jre-jammy
 # Set the working directory
 WORKDIR /app
 
-# Copy the .jar file that was built in the 'builder' stage
+# Copy the built from stage1
 COPY --from=builder /build/target/backend-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080 to allow traffic to the application
 EXPOSE 8080
 
-# The command to run when the container starts
+# run when the container starts
 ENTRYPOINT ["java", "-jar", "app.jar"]
