@@ -2,7 +2,7 @@
 A full-stack web application designed to be the central hub for all computer science club events at Virginia Tech. <br>
 This platform enables students in discovering events that align with their technical interests and career goals, while simplifying the process of event promotion and management for club leaders.
 
-### Note: Please checkout the version1 branch for the latest code updates.
+### Note: Please checkout the v1 branch for the latest code updates.
 
 ### ✨ Key Features
 This project is being built with two primary users in mind: students looking for opportunities and club leaders organizing them.
