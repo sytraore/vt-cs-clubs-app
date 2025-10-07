@@ -1,6 +1,7 @@
 package com.vtcsclubs.backend.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Club {
     // enable deletion of all admins if a club gets deleted
     // enable deletion of admin from database if ever removed from this table
     // map by the club field in club_admins table
+    @JsonManagedReference
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AdminUser> admins = new ArrayList<>();
 
@@ -34,6 +36,7 @@ public class Club {
     // enable deletion of all events if a club gets deleted
     // enable deletion of event from database if ever removed from this table
     // map by the club field in events table
+    @JsonManagedReference
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events = new ArrayList<>();
 
@@ -97,15 +100,11 @@ public class Club {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Club club = (Club) o;
-        return Objects.equals(getClubId(),
-                club.getClubId()) && Objects.equals(getName(),
-                club.getName()) && Objects.equals(getInfo(),
-                club.getInfo()) && Objects.equals(getContactEmail(),
-                club.getContactEmail());
+        return Objects.equals(clubId, club.clubId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClubId(), getName(), getInfo(), getContactEmail());
+        return Objects.hashCode(clubId);
     }
 }

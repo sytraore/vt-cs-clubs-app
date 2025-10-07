@@ -1,7 +1,6 @@
 package com.vtcsclubs.backend.testServices;
-import com.vtcsclubs.backend.dto.RegisterRequest;
+import com.vtcsclubs.backend.dto.requests.auth.RegisterRequest;
 import com.vtcsclubs.backend.models.AdminUser;
-import com.vtcsclubs.backend.models.Club;
 import com.vtcsclubs.backend.repositories.AdminUserRepository;
 import com.vtcsclubs.backend.services.AuthService;
 import com.vtcsclubs.backend.services.JwtService;

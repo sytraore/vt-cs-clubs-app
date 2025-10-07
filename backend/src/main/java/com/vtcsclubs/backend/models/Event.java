@@ -1,5 +1,7 @@
 package com.vtcsclubs.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -31,9 +33,10 @@ public class Event {
     private String location;
 
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime respDeadline;
+    private LocalDateTime rsvpDeadline;
 
     // an event is hosted by a club and a club can host many events
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -41,26 +44,29 @@ public class Event {
     // an event can have many tags
     // an event cannot have duplicated tags, a hash set will handle the duplicates
     // save an event that has a brand-new tag, JPA will also save that new tag to the database
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
           name = "event_tags",
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private HashSet<Tag> tags = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 
     // an event can have many sponsors
     // an event cannot have duplicated sponsors, a hash set will handle the duplicates
     // save an event that has a brand-new sponsor, JPA will also save that new sponsor to the database
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "event_sponsors",
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "sponsor_id")
     )
-    private HashSet<Sponsor> sponsors = new HashSet<>();
+    private Set<Sponsor> sponsors = new HashSet<>();
 
     // an event can have many students
+    @JsonManagedReference
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rsvp> registeredStudents = new ArrayList<>();
 
@@ -73,7 +79,7 @@ public class Event {
                  String description,
                  String applicationLink,
                  String location,
-                 LocalDateTime respDeadline,
+                 LocalDateTime rsvpDeadline,
                  Club club) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -81,7 +87,7 @@ public class Event {
         this.description = description;
         this.applicationLink = applicationLink;
         this.location = location;
-        this.respDeadline = respDeadline;
+        this.rsvpDeadline = rsvpDeadline;
         this.club = club;
     }
 
@@ -141,12 +147,12 @@ public class Event {
         this.location = location;
     }
 
-    public LocalDateTime getRespDeadline() {
-        return respDeadline;
+    public LocalDateTime getRsvpDeadline() {
+        return rsvpDeadline;
     }
 
-    public void setRespDeadline(LocalDateTime respDeadline) {
-        this.respDeadline = respDeadline;
+    public void setRsvpDeadline(LocalDateTime rsvpDeadline) {
+        this.rsvpDeadline = rsvpDeadline;
     }
 
     public Club getClub() {
@@ -157,19 +163,19 @@ public class Event {
         this.club = club;
     }
 
-    public HashSet<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(HashSet<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public HashSet<Sponsor> getSponsors() {
+    public Set<Sponsor> getSponsors() {
         return sponsors;
     }
 
-    public void setSponsors(HashSet<Sponsor> sponsors) {
+    public void setSponsors(Set<Sponsor> sponsors) {
         this.sponsors = sponsors;
     }
 
@@ -183,34 +189,16 @@ public class Event {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(getEventId(),
-                event.getEventId()) && Objects.equals(getStartTime(),
-                event.getStartTime()) && Objects.equals(getEndTime(),
-                event.getEndTime()) && Objects.equals(getTitle(),
-                event.getTitle()) && Objects.equals(getDescription(),
-                event.getDescription()) && Objects.equals(getApplicationLink(),
-                event.getApplicationLink()) && Objects.equals(getLocation(),
-                event.getLocation()) && Objects.equals(getRespDeadline(),
-                event.getRespDeadline()) && Objects.equals(getClub(),
-                event.getClub()) && Objects.equals(getTags(),
-                event.getTags()) && Objects.equals(getSponsors(),
-                event.getSponsors());
+        // The equality of an entity should only depend on its ID.
+        return eventId != null && Objects.equals(eventId, event.eventId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEventId(),
-                getStartTime(),
-                getEndTime(),
-                getTitle(),
-                getDescription(),
-                getApplicationLink(),
-                getLocation(),
-                getRespDeadline(),
-                getClub(),
-                getTags(),
-                getSponsors());
+        // The hash code should also only depend on the ID.
+        return Objects.hash(eventId);
     }
 }

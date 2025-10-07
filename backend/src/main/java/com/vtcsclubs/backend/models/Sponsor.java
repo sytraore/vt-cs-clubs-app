@@ -1,9 +1,11 @@
 package com.vtcsclubs.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "sponsors")
@@ -17,8 +19,9 @@ public class Sponsor {
     private String sponsorName;
 
     // a sponsor can sponsor many events
+    @JsonBackReference
     @ManyToMany(mappedBy = "sponsors", fetch = FetchType.LAZY)
-    private HashSet<Event> events = new HashSet<>();
+    private Set<Event> events = new HashSet<>();
 
     public Sponsor() {
     }
@@ -43,11 +46,11 @@ public class Sponsor {
         this.sponsorName = sponsorName;
     }
 
-    public HashSet<Event> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(HashSet<Event> events) {
+    public void setEvents(Set<Event> events) {
         this.events = events;
     }
 
@@ -55,14 +58,11 @@ public class Sponsor {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Sponsor sponsor = (Sponsor) o;
-        return Objects.equals(getSponsorId(),
-                sponsor.getSponsorId()) && Objects.equals(getSponsorName(),
-                sponsor.getSponsorName()) && Objects.equals(getEvents(),
-                sponsor.getEvents());
+        return Objects.equals(sponsorId, sponsor.sponsorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSponsorId(), getSponsorName(), getEvents());
+        return Objects.hashCode(sponsorId);
     }
 }

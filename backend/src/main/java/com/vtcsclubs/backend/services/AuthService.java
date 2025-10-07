@@ -1,7 +1,8 @@
 package com.vtcsclubs.backend.services;
-import com.vtcsclubs.backend.dto.AuthResponse;
-import com.vtcsclubs.backend.dto.LoginRequest;
-import com.vtcsclubs.backend.dto.RegisterRequest;
+
+import com.vtcsclubs.backend.dto.responses.auth.AuthResponse;
+import com.vtcsclubs.backend.dto.requests.auth.LoginRequest;
+import com.vtcsclubs.backend.dto.requests.auth.RegisterRequest;
 import com.vtcsclubs.backend.models.AdminUser;
 import com.vtcsclubs.backend.repositories.AdminUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+/*
+* Business logic to register a club admin
+* */
 @Service
 public class AuthService {
     private final AdminUserRepository adminUserRepository;

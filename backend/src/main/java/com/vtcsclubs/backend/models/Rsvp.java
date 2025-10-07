@@ -1,6 +1,7 @@
 package com.vtcsclubs.backend.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class Rsvp {
     private LocalDateTime rsvpTime;
 
     // a student can register for one event
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
@@ -67,12 +69,12 @@ public class Rsvp {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Rsvp rsp = (Rsvp) o;
-        return Objects.equals(getRsvpId(), rsp.getRsvpId()) && Objects.equals(getStudentEmail(), rsp.getStudentEmail()) && Objects.equals(getRsvpTime(), rsp.getRsvpTime()) && Objects.equals(getEvent(), rsp.getEvent());
+        Rsvp rsvp = (Rsvp) o;
+        return Objects.equals(rsvpId, rsvp.rsvpId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRsvpId(), getStudentEmail(), getRsvpTime(), getEvent());
+        return Objects.hashCode(rsvpId);
     }
 }

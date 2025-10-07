@@ -1,3 +1,3 @@
-package com.vtcsclubs.backend.dto;
+package com.vtcsclubs.backend.dto.requests.auth;
 
 public record LoginRequest(String email, String password) {}

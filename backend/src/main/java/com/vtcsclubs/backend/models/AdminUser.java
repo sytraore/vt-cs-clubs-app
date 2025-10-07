@@ -2,6 +2,7 @@ package com.vtcsclubs.backend.models;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +23,7 @@ public class AdminUser implements UserDetails {
 
     // Many admins can belong to 1 club
     // foreign key column is named club_id
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
