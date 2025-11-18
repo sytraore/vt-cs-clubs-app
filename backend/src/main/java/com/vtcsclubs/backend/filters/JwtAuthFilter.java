@@ -41,12 +41,17 @@ public class JwtAuthFilter extends OncePerRequestFilter{
             return;
         }
 
+        // Extract the JWT from the Authorization header.
         jwt = authHeader.substring(7); // "Bearer ".length()
+        // Extract the email from the JWT.
         email = jwtService.extractUserEmail(jwt);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Load the user details from the database.
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
+            // Validate the JWT.
             if (jwtService.isTokenValid(jwt, userDetails)) {
+                // Create a new authentication token.
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

@@ -47,11 +47,11 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         // Find the user in the database
         AdminUser adminUser = adminUserRepository.findByEmail(request.email())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+                .orElseThrow(() -> new IllegalArgumentException("Email not found."));
 
         // Check if the provided password matches the stored hashed password
         if (!passwordEncoder.matches(request.password(), adminUser.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new IllegalArgumentException("Invalid password.");
         }
 
         // Generate a JWT for the user

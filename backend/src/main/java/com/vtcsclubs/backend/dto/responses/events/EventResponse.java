@@ -9,7 +9,7 @@ import java.util.Set;
 
 public record EventResponse(
         Long eventId,
-        String tile,
+        String title,
         LocalDateTime startTime,
         LocalDateTime endTime,
         String location,

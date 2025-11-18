@@ -80,14 +80,19 @@ public class JwtService {
     }
 
     /**
-     * Parses the token to extract all claims.
+     * Validates the token signature, check the expiration and return the claims.
      */
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
+        return Jwts.parserBuilder() // build the parser
+                .setSigningKey(getSignInKey()) // tell the parser to use the secret key to verify the signature.
+                .build() // create the parser.
+                // separates the header, payload, and signature. 
+                //Then uses the secret key and the algorithm to recalculate the signature based on the header and payload of the token.
+                // If the signature is valid, and not expired, the token is valid. 
+                // If the signature is invalid, or the token is expired, the token is invalid.
+                // If the token is valid, the claims are returned.
                 .parseClaimsJws(token)
-                .getBody();
+                .getBody(); // valid token so extract the claims from the token and return them.
     }
 
     /**

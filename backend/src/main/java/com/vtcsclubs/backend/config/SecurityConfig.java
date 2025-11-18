@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/vtcsclubevents/health", "/vtcsclubevents/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                // Tell Spring to not create a session for the user. Every request will use a stateless authentication.
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Tell Spring to use our new authentication provider
                 .authenticationProvider(authenticationProvider)

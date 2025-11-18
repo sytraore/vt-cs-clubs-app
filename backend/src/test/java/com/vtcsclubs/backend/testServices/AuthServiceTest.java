@@ -37,7 +37,7 @@ public class AuthServiceTest {
     //private Club mockClub;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         // Set up common test data before each test
         //mockClub = new Club("BITS", "Develop projects", "abc@vt.edu");
         registerRequest = new RegisterRequest("testuser", "password123");
@@ -45,7 +45,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    void register_ShouldSaveUserAndReturnToken() {
+    public void register_ShouldSaveUserAndReturnToken() {
         // 1. When passwordEncoder.encode is called with "password123", return "hashedPassword"
         when(passwordEncoder.encode(registerRequest.password())).thenReturn("hashedPassword");
 

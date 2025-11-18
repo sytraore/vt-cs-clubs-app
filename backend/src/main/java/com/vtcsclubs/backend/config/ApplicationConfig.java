@@ -28,9 +28,9 @@ public class ApplicationConfig {
     // authenticate requester
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        // Tell the provider to use our custom user details service to find users
-        authProvider.setUserDetailsService(userDetailsService());
+        UserDetailsService userDetailsService = userDetailsService();
+        // Create a new DaoAuthenticationProvider with the user details service.
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         // Tell the provider to use our password encoder to check passwords
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
